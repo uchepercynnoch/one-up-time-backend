@@ -8,7 +8,8 @@
     "test": "jest",
     "pretest": "cross-env NODE_ENV=test NODE_ENV=5001",
     "dev:start": "nodemon bin/www",
-    "posttest": "istanbul cover node_modules/jest/bin/jest.js"
+    "posttest": "istanbul cover node_modules/jest/bin/jest.js",
+    "prestart": "npm install"
   },
   "keywords": [],
   "author": "",
