@@ -1,0 +1,16 @@
+require("dotenv").config();
+
+const server = require("../src/server");
+const appLogger = require("../src/utils/appLogger");
+const database = require("../src/config/database");
+
+const port = process.env.PORT || 5001;
+
+const logger = appLogger(require('../package.json').name);
+
+database
+    .init()
+    .then(() => logger.info("Database connected"))
+    .catch(logger.error);
+
+server.listen(port, () => logger.info(`server running on port: ${port}`));

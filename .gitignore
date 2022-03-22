@@ -1,0 +1,9 @@
+.idea
+public
+coverage
+logs
+node_modules
+.vscode
+*.env
+package-lock.json
+api.http
