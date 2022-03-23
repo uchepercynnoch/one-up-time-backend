@@ -1,7 +1,7 @@
 const path = require("path");
-const { createWriteStream, createReadStream } = require("fs");
+const { createWriteStream } = require("fs");
 
-const sharp = require("sharp");
+const gm = require("gm").subClass({ imageMagick: true });
 
 const axios = require("../config/axiosClient");
 const isObjectEmpty = require("../utils/isObjectEmpty");
@@ -28,7 +28,7 @@ class ImageController {
         return res.status(400).send("Invalid url");
       }
 
-      const filename = path.resolve("public/image.png");
+      const filename = path.resolve(__dirname, "../resources/images/image.png");
 
       const writeStream = createWriteStream(filename);
 
@@ -36,21 +36,19 @@ class ImageController {
 
       image.pipe(writeStream); //Download image to public folder
 
-      const thumbnail = await sharp().resize(50, 50).png(); //Create thumbnail dimensions using sharp library
-
       // Once stream is done writing to file, read the file and pipe to response
       writeStream.on("close", () => {
-        const readStream = createReadStream(filename);
-
-        readStream.on("error", (err) => {
-          throw new Error(err.message);
-        });
-
         res.writeHead(200, {
           "Content-Type": "image/png",
         });
 
-        readStream.pipe(thumbnail).pipe(res); //Transform file to thumbnail, then pipe to response
+        gm(filename)
+          .resize("50", "50")
+          .stream((err, stdout) => {
+            if (err) return res.status(500).send(err.message);
+
+            stdout.pipe(res); //Transform file to thumbnail, then pipe to response
+          });
       });
     } catch (e) {
       return Promise.reject(e);

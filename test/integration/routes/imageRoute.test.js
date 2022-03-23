@@ -33,6 +33,8 @@ describe("/api/v1/thumbnails", () => {
   beforeEach(async () => {
     request = supertest(server);
     await database.init();
+    await Image.deleteMany({});
+    await User.deleteMany({});
   });
 
   afterEach(async () => {
@@ -54,7 +56,7 @@ describe("/api/v1/thumbnails", () => {
   it("should return 401 if jsonwebtoken is invalid", async function () {
     const response = await request
       .post(`${API_ROOT}/thumbnails`)
-      .set("Authorization", "invalidJwt")
+      .set("Authorization", "Bearer invalidJwt")
       .send(requestBody);
 
     expect(response.status).toBe(401);
@@ -69,7 +71,7 @@ describe("/api/v1/thumbnails", () => {
 
     const response = await request
       .post(`${API_ROOT}/thumbnails`)
-      .set("Authorization", jwt)
+      .set("Authorization", `Bearer ${jwt}`)
       .send(requestBody);
 
     expect(response.status).toBe(401);
@@ -83,7 +85,7 @@ describe("/api/v1/thumbnails", () => {
 
     const response = await request
       .post(`${API_ROOT}/thumbnails`)
-      .set("Authorization", jwt)
+      .set("Authorization", `Bearer ${jwt}`)
       .send(emptyRequestBody);
 
     expect(response.status).toBe(400);
@@ -104,7 +106,7 @@ describe("/api/v1/thumbnails", () => {
     for (let i = 0; i < requestBodyWithInvalidUrls.length; i++) {
       const response = await request
         .post(`${API_ROOT}/thumbnails`)
-        .set("Authorization", jwt)
+        .set("Authorization", `Bearer ${jwt}`)
         .send(requestBodyWithInvalidUrls[i]);
 
       expect(response.status).toBe(400);
@@ -119,7 +121,7 @@ describe("/api/v1/thumbnails", () => {
 
     const response = await request
       .post(`${API_ROOT}/thumbnails`)
-      .set("Authorization", jwt)
+      .set("Authorization", `Bearer ${jwt}`)
       .send(requestBodyWithNoUrlParameter);
 
     expect(response.status).toBe(400);
@@ -131,7 +133,7 @@ describe("/api/v1/thumbnails", () => {
 
     const response = await request
       .post(`${API_ROOT}/thumbnails`)
-      .set("Authorization", jwt)
+      .set("Authorization", `Bearer ${jwt}`)
       .send(requestBody);
 
     const image = fs.readFileSync(path.resolve("public/image.png"));

@@ -28,9 +28,10 @@ const ImageController = require("../../controllers/ImageController");
  *       200:
  *         description: OK
  *         content:
- *            plain/text:
+ *            image/png:
  *                schema:
  *                  type: string
+ *                  format: binary
  *       400:
  *         description: Bad requests
  *         content:

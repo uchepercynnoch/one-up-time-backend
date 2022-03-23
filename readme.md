@@ -46,10 +46,13 @@ JWT_EXPIRY=<your jwt expiry date>
 NODE_ENV=<environment>
 
 API_ROOT=/api/v1
+
+### docker.env ###
+SHARP_INSTALL_FORCE=true
 ```
 The application runs different services as docker containers, so be sure to have __Docker__ installed globally on your PC. See
 instructions on how to install for [Mac](https://docs.docker.com/desktop/mac/install/)
-and [Windows](https://docs.docker.com/desktop/windows/install/). _Docker-Compose_ is used to orchestrate the service's containerization.
+and [Windows](https://docs.docker.com/desktop/windows/install/). _Docker-Compose_ is used to orchestrate the service's containerization. Access application using `http://api/api`
 
 ### <a id="requirements">Requirements</a>
 
@@ -59,6 +62,7 @@ and [Windows](https://docs.docker.com/desktop/windows/install/). _Docker-Compose
  - Nginx
  - Docker
  - Swagger
+ - ImageMagick - See instructions on how to install for [Mac](https://formulae.brew.sh/formula/imagemagick#default) and [Windows](https://imagemagick.org/script/download.php)
 
 ### <a id="database">Database</a>
 
@@ -66,11 +70,13 @@ The application uses Mongodb database. The database configuration parameters are
 
 ### <a id="build">Build</a>
 
-To build the application, open a terminal in the root directory of the application, then run the command `COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose build &&  docker-compose up` or `./docker.sh`.
+To build the application, open a terminal in the root directory of the application, then run the command `COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose build` or `./docker.sh`.
 Where `docker.sh` bash file in the root directory of the application. Be sure to grant the file executable permissions e.g., on __MAC__, run `chmod +x docker.sh`. This will generate and run a docker image.
 
 ### <a id="run">Run</a>
-To the run the application locally, run `npm start` on the terminal, whereas for the docker image, run `docker run image-name`
+To the run the application, open a terminal on the application root directory:
+ - As a monolith - run `npm start`
+ - As a microservice - run `docker-compose up`
 
 ### <a id="test">Test</a>
 
@@ -99,6 +105,7 @@ _Generate image thumbnail_
 ```
 
 #### API endpoints table
+
 
 | Name                                            | Method |                               Path                                |     Parameter(s)      |
 | :---------------------------------------------- | :----: | :---------------------------------------------------------------: | :-------------------: |

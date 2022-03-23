@@ -12,11 +12,11 @@ services:
     env_file:
       - docker.env
   mongo:
-    image: "mongo:latest"
+    image: mongo:latest
     ports:
       - "27017:27017"
   nginx:
-    image: nginx:latest
+    image: nginx:alpine
     restart: always
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
