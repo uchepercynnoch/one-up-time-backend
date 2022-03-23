@@ -21,8 +21,8 @@ Simple stateless microservice in Nodejs, with three major functionalities
 ### Design assumptions
 
 1. Login username and password are both _strings_ of any length
-2. User can be created and saved in the database with username and password
-3. Image can be created and saved in the database with url
+2. User can be created and saved in the database with username and password, during login
+3. Image can be created and saved in the database with url, during generate image thumbnail operation
 
 ---
 
@@ -30,15 +30,17 @@ Simple stateless microservice in Nodejs, with three major functionalities
 
 First clone the repository, unzip, and open in your favourite IDE. Create files `.env` and `docker.env` for your configurations. File contents should look like so:
 ```
-### .env ###
+### This block is for .env file ###
 DB_DEV_URL=mongodb://localhost/dev_db
 DB_PROD_URL=mongodb://localhost/prod_db
 DB_TEST_URL=mongodb://localhost/test_db
+### This block is for .env file ###
 
-### docker.env ###
+### This block is for docker.env file ###
 DB_DEV_URL=mongodb://mongo/dev_db
 DB_PROD_URL=mongodb://mongo/prod_db
 DB_TEST_URL=mongodb://mongo/test_db
+### This block is for docker.env file ###
 
 PORT=5000
 JWT_KEY=<your jwt key>
@@ -47,13 +49,10 @@ JWT_EXPIRY=<your jwt expiry date>
 NODE_ENV=<environment>
 
 API_ROOT=/api/v1
-
-### docker.env ###
-SHARP_INSTALL_FORCE=true
 ```
 The application runs different services as docker containers, so be sure to have __Docker__ installed globally on your PC. See
 instructions on how to install for [Mac](https://docs.docker.com/desktop/mac/install/)
-and [Windows](https://docs.docker.com/desktop/windows/install/). _Docker-Compose_ is used to orchestrate the service's containerization. Access application using `http://api/api`
+and [Windows](https://docs.docker.com/desktop/windows/install/). _Docker-Compose_ is used to orchestrate the service's containerization.
 
 ### <a id="requirements">Requirements</a>
 
@@ -72,7 +71,7 @@ The application uses Mongodb database. The database configuration parameters are
 ### <a id="build">Build</a>
 
 To build the application, open a terminal in the root directory of the application, then run the command `COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose build` or `./docker.sh`.
-Where `docker.sh` bash file in the root directory of the application. Be sure to grant the file executable permissions e.g., on __MAC__, run `chmod +x docker.sh`. This will generate and run a docker image.
+Where `docker.sh` bash file in the root directory of the application. Be sure to grant the file executable permissions e.g., on __MAC__, run `chmod +x docker.sh`. This will generate a docker image.
 
 ### <a id="run">Run</a>
 To the run the application, open a terminal on the application root directory:
@@ -105,13 +104,24 @@ _Generate image thumbnail_
 }
 ```
 
+_User JsonPatch_
+
+```json
+{
+  "op": "string",
+  "path": "/string",
+  "value": "string"
+}
+```
+
 #### API endpoints table
 
 
 | Name                                            | Method |                               Path                                |     Parameter(s)      |
-| :---------------------------------------------- | :----: | :---------------------------------------------------------------: | :-------------------: |
+| :----------------------------------------------:| :----: | :---------------------------------------------------------------: | :-------------------: |
 | Login User                                      |  POST  |                             `/api/v1/login`                       |        `null`         |
 | Generate Thumbnail                              |  POST  |                     `/api/v1/thumbnails`                          |        `null`         |
+| Update User                                     |  PATCH |                     `/api/v1/users/{id}`                          |        `id`         |
 
 ### <a id="issues">Known Issues</a>
 For some reason, image thumbnail generation on node.js alpine version does not seem to work in docker image. So full version of node.js should be used instead.

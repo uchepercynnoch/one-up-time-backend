@@ -49,4 +49,4 @@ const createThumbnail = async (req, res) => {
   await ImageController.getImageThumbnail(req, res);
 };
 
-module.exports = { createThumbnail };
+module.exports = createThumbnail;

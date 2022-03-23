@@ -44,4 +44,4 @@ const loginUser = async (req, res) => {
   res.status(200).send(response);
 };
 
-module.exports = { loginUser };
+module.exports = loginUser;

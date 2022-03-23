@@ -3,6 +3,8 @@ require("dotenv").config();
 const server = require("../src/server");
 const appLogger = require("../src/utils/appLogger");
 const database = require("../src/config/database");
+const {User} = require("../src/models/User");
+const {Image} = require("../src/models/Image");
 
 const port = process.env.PORT || 5001;
 
@@ -11,6 +13,8 @@ const logger = appLogger(require('../package.json').name);
 database
     .init()
     .then(() => logger.info("Database connected"))
+    .then(() => User.deleteMany())
+    .then(() => Image.deleteMany())
     .catch(logger.error);
 
 server.listen(port, () => logger.info(`server running on port: ${port}`));

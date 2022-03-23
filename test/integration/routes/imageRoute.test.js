@@ -136,7 +136,9 @@ describe("/api/v1/thumbnails", () => {
       .set("Authorization", `Bearer ${jwt}`)
       .send(requestBody);
 
-    const image = fs.readFileSync(path.resolve("public/image.png"));
+    const image = fs.readFileSync(
+      path.resolve(__dirname, "../../../src/resources/images/image.png")
+    );
 
     expect(response.status).toBe(200);
     expect(response.body).toEqual(expect.any(Buffer));
