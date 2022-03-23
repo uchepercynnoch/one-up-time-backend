@@ -9,6 +9,7 @@
     - [Run](#run)
     - [Test](#test)
     - [API endpoints](#api-calls)
+    - [Known Issues](#issues)
 
 ## <a id="intro">Introduction</a>
 
@@ -111,3 +112,7 @@ _Generate image thumbnail_
 | :---------------------------------------------- | :----: | :---------------------------------------------------------------: | :-------------------: |
 | Login User                                      |  POST  |                             `/api/v1/login`                       |        `null`         |
 | Generate Thumbnail                              |  POST  |                     `/api/v1/thumbnails`                          |        `null`         |
+
+### <a id="issues">Known Issues</a>
+For some reason, image thumbnail generation on node.js alpine version does not seem to work in docker image. So full version of node.js should be used instead.
+I used alpine version to reduce image build size.
