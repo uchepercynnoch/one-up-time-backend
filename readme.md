@@ -100,7 +100,7 @@ _Generate image thumbnail_
 
 ```json
 {
-  "code": "string"
+  "url": "string"
 }
 ```
 
