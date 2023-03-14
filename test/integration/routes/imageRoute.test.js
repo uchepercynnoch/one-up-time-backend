@@ -142,6 +142,6 @@ describe("/api/v1/thumbnails", () => {
 
     expect(response.status).toBe(200);
     expect(response.body).toEqual(expect.any(Buffer));
-    expect(response.body).not.toEqual(image); //Since the have different dimensions; (50x50) against (200x300)
+    expect(response.body).not.toEqual(image); //Since they have different dimensions; (50x50) against (200x300)
   });
 });
